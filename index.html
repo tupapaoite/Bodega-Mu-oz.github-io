@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bodega Muñoz - Tu tienda de confianza</title>
+    
+     <!-- External CSS -->
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+     <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand">Bodega Muñoz</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:void(0)" onclick="showSection('products')">Inicio</a>
+                    </li>
+                    <li class="nav-item position-relative">
+                        <a class="nav-link" href="javascript:void(0)" onclick="showSection('cart')">
+                            <i class="fas fa-shopping-cart"></i> Carrito
+                            <span class="cart-count" id="cartCount">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:void(0)" onclick="showSection('orders')">Pedidos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:void(0)" onclick="showSection('about')">Acerca de Nosotros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:void(0)" onclick="showSection('help')">Ayuda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:void(0)" onclick="showSection('admin')">Atender Pedidos</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="hero-section">
+        <div class="hero-content container">
+            <div class="hero-slider">
+                <div class="hero-slide active" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1604719312566-8912e9227c6a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80')">
+                    <div class="hero-text">
+                        <h1>Bodega Muñoz</h1>
+                        <p>Tu tienda de confianza desde 2010</p>
+                    </div>
+                </div>
+                <div class="hero-slide" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1534723452862-4c874018d66d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80')">
+                    <div class="hero-text">
+                        <h1>Productos de Calidad</h1>
+                        <p>Los mejores precios del mercado</p>
+                    </div>
+                </div>
+                <div class="hero-slide" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1578916171728-46686eac8d58?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80')">
+                    <div class="hero-text">
+                        <h1>Servicio Rápido</h1>
+                        <p>Delivery a tu puerta</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <main class="container">
+        <div id="productsSection" class="products-grid">
+            <!-- Los productos se cargarán dinámicamente -->
+        </div>
+    
+        <div id="cartSection" class="cart-section" style="display: none;">
+            <h2 class="mb-4">Tu Carrito</h2>
+            <div id="cartItems" class="mb-4">
+                <!-- Los artículos del carrito se mostrarán aquí -->
+            </div>
+            <div class="text-end mt-3">
+                <h4>Total: S/ <span id="cartTotal">0.00</span></h4>
+                <button class="btn btn-primary" onclick="showPaymentForm()">Proceder al Pago</button>
+            </div>
+    
+            <div id="paymentForm" style="display: none;" class="mt-4">
+                <h3>Datos de Pago y Envío</h3>
+                <form id="cardPaymentForm" class="row g-3" onsubmit="processPayment(event)">
+                    <!-- Sección de detalles del cliente -->
+                    <div class="col-md-6">
+                        <label class="form-label">Nombre Completo</label>
+                        <input type="text" class="form-control" id="customerName" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">DNI</label>
+                        <input type="text" class="form-control" id="customerDNI" 
+                               pattern="\d{8}" maxlength="8" 
+                               title="Ingrese los 8 dígitos de su DNI" required>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Dirección de envío</label>
+                        <input type="text" class="form-control" id="customerAddress" required>
+                    </div>
+                    
+                    <!-- Sección de detalles de pago -->
+                    <div class="col-md-6">
+                        <label class="form-label">Nombre del propietario</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Número de tarjeta</label>
+                        <input type="text" class="form-control" maxlength="16" required 
+                               pattern="\d{16}" title="Ingrese los 16 dígitos de su tarjeta">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Fecha de expiración</label>
+                        <input type="text" class="form-control" placeholder="MM/YY" 
+                               pattern="\d{2}/\d{2}" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">CVV</label>
+                        <input type="text" class="form-control" maxlength="3" 
+                               pattern="\d{3}" required>
+                    </div>
+                    <div class="col-12 text-end">
+                        <button type="submit" class="btn btn-success">
+                            Pagar S/ <span class="payment-total">0.00</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    
+        <div id="ordersSection" class="orders-section" style="display: none;">
+            <h2>Tus Pedidos</h2>
+            <div id="ordersList"></div>
+        </div>
+    
+        <div id="aboutSection" class="about-section" style="display: none;">
+            <div class="container py-5">
+                <h2 class="mb-4">Sobre Bodega Muñoz</h2>
+                
+                <!-- Sección Acerca de Nosotros -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3>Nuestra Historia</h3>
+                        <p>Somos tu tienda de confianza desde 2010, brindando los mejores productos y servicio a nuestra comunidad. Con más de 10 años de experiencia, nos hemos convertido en parte fundamental del barrio, ofreciendo productos de calidad a precios justos.</p>
+                        
+                        <h3 class="mt-4">Ubicación</h3>
+                        <div class="map-container">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d16754.67265216703!2d-79.8410729!3d-6.806786!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x904cef5a74e205af%3A0xc7802a3bc4d256cc!2sBodega%20Libreria%20Munoz!5e1!3m2!1sen!2sus!4v1734335046687!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Política de privacidad -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3>Protección de Datos</h3>
+                        <p>En Bodega Muñoz, nos tomamos muy en serio la protección de tus datos personales. Toda la información proporcionada durante el proceso de compra está protegida y encriptada según las normativas vigentes de protección de datos.</p>
+                        <ul>
+                            <li>No compartimos tu información con terceros</li>
+                            <li>Tus datos de pago están completamente seguros</li>
+                            <li>Solo utilizamos tu información para procesar tus pedidos</li>
+                            <li>Tienes derecho a solicitar la eliminación de tus datos</li>
+                        </ul>
+                    </div>
+                </div>
+    
+                <!-- Sección de quejas -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3>Libro de Reclamaciones</h3>
+                        <form id="complaintForm" onsubmit="event.preventDefault(); submitComplaint();">
+                            <div class="mb-3">
+                                <label class="form-label">Nombre Completo</label>
+                                <input type="text" class="form-control" id="complaintName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Describe tu reclamo</label>
+                                <textarea class="form-control" id="complaintText" rows="3" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Califica nuestro servicio</label>
+                                <div class="rating">
+                                    <input type="radio" name="rating" value="5" id="star5" required><label for="star5">★</label>
+                                    <input type="radio" name="rating" value="4" id="star4"><label for="star4">★</label>
+                                    <input type="radio" name="rating" value="3" id="star3"><label for="star3">★</label>
+                                    <input type="radio" name="rating" value="2" id="star2"><label for="star2">★</label>
+                                    <input type="radio" name="rating" value="1" id="star1"><label for="star1">★</label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Enviar Reclamo</button>
+                        </form>
+    
+                        <div id="complaintsContainer" class="mt-4">
+                            <!-- Las quejas se agregarán aquí dinámicamente -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div id="helpSection" class="help-section" style="display: none;">
+            <h2>Centro de Ayuda</h2>
+            <div class="accordion" id="helpAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                            ¿Cómo realizar un pedido?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show">
+                        <div class="accordion-body">
+                            <ol>
+                                <li>Navega a la sección "Inicio" donde encontrarás todos nuestros productos disponibles</li>
+                                <li>Para cada producto, puedes seleccionar la cantidad deseada usando los controles + y -</li>
+                                <li>Haz clic en "Añadir al carrito" para agregar el producto</li>
+                                <li>Puedes seguir añadiendo más productos según necesites</li>
+                                <li>Cuando estés listo, haz clic en "Carrito" en el menú superior</li>
+                                <li>Revisa tu pedido y haz clic en "Proceder al Pago"</li>
+                                <li>Completa el formulario con tus datos personales y de pago</li>
+                                <li>¡Listo! Tu pedido será procesado y podrás seguir su estado en la sección "Pedidos"</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                            ¿Cómo gestionar mi carrito de compras?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            <ul>
+                                <li><strong>Añadir productos:</strong> Selecciona la cantidad y haz clic en "Añadir al carrito"</li>
+                                <li><strong>Modificar cantidades:</strong> En el carrito, usa los botones + y - para ajustar las cantidades</li>
+                                <li><strong>Eliminar productos:</strong> Usa el botón "Eliminar" junto a cada producto</li>
+                                <li><strong>Ver total:</strong> El total se actualiza automáticamente con cada cambio</li>
+                                <li><strong>Vaciar carrito:</strong> Elimina los productos individualmente o cierra sesión</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                            ¿Cómo realizar el pago?
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            <h5>Pasos para el pago:</h5>
+                            <ol>
+                                <li>En el carrito, haz clic en "Proceder al Pago"</li>
+                                <li>Completa tus datos personales:
+                                    <ul>
+                                        <li>Nombre completo</li>
+                                        <li>DNI</li>
+                                        <li>Dirección de entrega</li>
+                                    </ul>
+                                </li>
+                                <li>Ingresa los datos de tu tarjeta:
+                                    <ul>
+                                        <li>Número de tarjeta (16 dígitos)</li>
+                                        <li>Fecha de vencimiento</li>
+                                        <li>Código de seguridad (CVV)</li>
+                                    </ul>
+                                </li>
+                                <li>Revisa el total a pagar</li>
+                                <li>Haz clic en "Pagar" para completar tu compra</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+                            ¿Cómo seguir mi pedido?
+                        </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            <p>Para dar seguimiento a tu pedido:</p>
+                            <ol>
+                                <li>Haz clic en "Pedidos" en el menú superior</li>
+                                <li>Verás la lista de todos tus pedidos con:
+                                    <ul>
+                                        <li>Número de pedido</li>
+                                        <li>Estado actual (En proceso, En camino, Entregado)</li>
+                                        <li>Detalles de los productos</li>
+                                        <li>Historial de actualizaciones</li>
+                                    </ul>
+                                </li>
+                                <li>El estado se actualiza automáticamente cuando hay cambios</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive">
+                            Preguntas frecuentes
+                        </button>
+                    </h2>
+                    <div id="collapseFive" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            <dl>
+                                <dt>¿Cuál es el tiempo de entrega?</dt>
+                                <dd>Realizamos entregas el mismo día para pedidos antes de las 6 PM.</dd>
+    
+                                <dt>¿Qué métodos de pago aceptan?</dt>
+                                <dd>Aceptamos todas las tarjetas de crédito y débito principales.</dd>
+    
+                                <dt>¿Tienen monto mínimo de compra?</dt>
+                                <dd>No hay monto mínimo para realizar pedidos.</dd>
+    
+                                <dt>¿Qué hago si tengo problemas con mi pedido?</dt>
+                                <dd>Puedes contactarnos o usar nuestro libro de reclamaciones en la sección "Acerca de Nosotros".</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div id="adminSection" class="admin-section" style="display: none;">
+            <div id="adminLogin" class="card p-4 mx-auto" style="max-width: 400px;">
+                <h2>Acceso de Personal</h2>
+                <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
+                    <div class="mb-3">
+                        <label class="form-label">Usuario</label>
+                        <input type="text" class="form-control" id="adminUsername" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="adminPassword" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Ingresar</button>
+                </form>
+            </div>
+            
+            <div id="adminDashboard" style="display: none;">
+                <h2>Panel de Control - Gestión de Pedidos</h2>
+                <div id="adminOrdersList"></div>
+            </div>
+        </div>
+    </main>
+        <!-- External JavaScript -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        
+    <script src="scripts.js"></script>
+    
+    </body>
+</html>
